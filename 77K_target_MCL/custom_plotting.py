@@ -31,9 +31,7 @@ def plot_concentration_and_spectra(
         labels = ("A", "B", "C")
     for idx, result_dataset in enumerate(result_datasets):
         cycler = cyclers[idx]
-        plot_concentrations(
-            result_dataset, axes[0], center_λ=0, linlog=True, cycler=cycler
-        )
+        plot_concentrations(result_dataset, axes[0], center_λ=0, linlog=True, cycler=cycler)
         plot_sas(result_dataset, axes[1], cycler=cycler)
         if show_DADS:
             plot_das(result_dataset, axes[2], cycler=das_cycler)
@@ -51,9 +49,7 @@ def plot_concentration_and_spectra(
     axes[0].annotate(labels[0], xy=(-0.05, 1.02), xycoords="axes fraction", fontsize=16)
     axes[1].annotate(labels[1], xy=(-0.05, 1.02), xycoords="axes fraction", fontsize=16)
     if show_DADS:
-        axes[2].annotate(
-            labels[2], xy=(-0.05, 1.02), xycoords="axes fraction", fontsize=16
-        )
+        axes[2].annotate(labels[2], xy=(-0.05, 1.02), xycoords="axes fraction", fontsize=16)
 
     return fig, axes
 
@@ -108,9 +104,7 @@ def plot_svd_of_residual(
             linthresh=linthresh,
             cycler=custom_cycler,
         )
-        plot_rsv_residual(
-            result_dataset, axes[1], indices=[index], cycler=custom_cycler
-        )
+        plot_rsv_residual(result_dataset, axes[1], indices=[index], cycler=custom_cycler)
 
     axes[0].set_xlabel("Time (ps)")
     axes[0].get_legend().remove()

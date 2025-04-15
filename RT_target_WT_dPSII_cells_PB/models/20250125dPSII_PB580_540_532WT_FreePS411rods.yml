@@ -90,7 +90,7 @@ dataset:
 initial_concentration:
   inputWT400:
     compartments: [APC660t, APC660b, APC660e, APC680,PC650t,PC650b,PC650e,PC640t,PC640b,PC640e,
-    PC650free,PC640free,PSIbulk, PSIred,PSIIbulk, PSIIRP]
+      PC650free,PC640free,PSIbulk, PSIred,PSIIbulk, PSIIRP]
     parameters: [
       input400.APC660t_APC660b,
       input400.APC660t_APC660b,
@@ -101,7 +101,7 @@ initial_concentration:
       ]
   inputWT532:
     compartments: [APC660t, APC660b, APC660e, APC680,PC650t,PC650b,PC650e,PC640t,PC640b,PC640e,
-    PC650free,PC640free,PSIbulk, PSIred,PSIIbulk, PSIIRP]
+      PC650free,PC640free,PSIbulk, PSIred,PSIIbulk, PSIIRP]
     parameters: [
       input580.APC660t_APC660b,
       input580.APC660t_APC660b,
@@ -112,7 +112,7 @@ initial_concentration:
       ]
   inputWT540:
     compartments: [APC660t, APC660b, APC660e, APC680,PC650t,PC650b,PC650e,PC640t,PC640b,PC640e,
-    PC650free,PC640free,PSIbulk, PSIred,PSIIbulk, PSIIRP]
+      PC650free,PC640free,PSIbulk, PSIred,PSIIbulk, PSIIRP]
     parameters: [
       input580.APC660t_APC660b,
       input580.APC660t_APC660b,
@@ -123,7 +123,7 @@ initial_concentration:
       ]
   inputWT580:
     compartments: [APC660t, APC660b, APC660e, APC680,PC650t,PC650b,PC650e,PC640t,PC640b,PC640e,
-    PC650free,PC640free,PSIbulk, PSIred,PSIIbulk, PSIIRP]
+      PC650free,PC640free,PSIbulk, PSIred,PSIIbulk, PSIIRP]
     parameters: [
       input580.APC660t_APC660b,
       input580.APC660t_APC660b,

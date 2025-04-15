@@ -281,7 +281,7 @@ k_matrix:
 initial_concentration:
   DA410input:
     compartments: [APC660t, APC660b, APC660e, APC680,PC650t,PC650b,PC650e,
-    PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
+      PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
     parameters: [
       input410.APC660t_APC660b,
       input410.APC660t_APC660b,
@@ -291,7 +291,7 @@ initial_concentration:
       ]
   DA610input:
     compartments: [APC660t, APC660b, APC660e, APC680,PC650t,PC650b,PC650e,
-    PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
+      PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
     parameters: [
       input610.APC660t_APC660b,
       input610.APC660t_APC660b,
@@ -301,7 +301,7 @@ initial_concentration:
       ]
   FRL410input:
     compartments: [APC660t, APC660b, APC660e, APC680,PC650t,PC650b,PC650e,
-    PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
+      PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
     parameters: [
       FRLinput410.APC660t_APC660b,
       FRLinput410.APC660t_APC660b,
@@ -311,7 +311,7 @@ initial_concentration:
       ]
   FRL610input:
     compartments: [APC660t, APC660b, APC660e, APC680,PC650t,PC650b,PC650e,
-    PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
+      PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
     parameters: [
       FRLinput610.APC660t_APC660b,
       FRLinput610.APC660t_APC660b,
@@ -321,7 +321,7 @@ initial_concentration:
       ]
   DA410DGinput:
     compartments: [APC660t, APC660b, APC660e, APC680,PC650t,PC650b,PC650e,
-    PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
+      PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
     parameters: [
       input410.APC660t_APC660b,
       input410.APC660t_APC660b,
@@ -331,7 +331,7 @@ initial_concentration:
       ]
   DA610DGinput:
     compartments: [APC660t, APC660b, APC660e, APC680,PC650t,PC650b,PC650e,
-    PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
+      PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
     parameters: [
       input610.APC660t_APC660b,
       input610.APC660t_APC660b,
@@ -341,7 +341,7 @@ initial_concentration:
       ]
   FRL410DGinput:
     compartments: [APC660t, APC660b, APC660e, APC680,PC650t,PC650b,PC650e,
-    PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
+      PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
     parameters: [
       FRLinput410.APC660t_APC660b,
       FRLinput410.APC660t_APC660b,
@@ -351,7 +351,7 @@ initial_concentration:
       ]
   FRL610DGinput:
     compartments: [APC660t, APC660b, APC660e, APC680,PC650t,PC650b,PC650e,
-    PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
+      PSII1,PSII2,PSII3,PSI1, PSI2,PSI3]
     parameters: [
       FRLinput610.APC660t_APC660b,
       FRLinput610.APC660t_APC660b,

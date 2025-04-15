@@ -8,9 +8,11 @@ from glotaran.model.item import fill_item
 from collections import deque
 from enum import Enum
 
+
 class TransitionData(Enum):
-    VALUE = 'value'
-    LABEL = 'label'
+    VALUE = "value"
+    LABEL = "label"
+
 
 class VisualizationOptions(BaseModel):
     alternative_node_names: Dict[str, str] = {}
@@ -20,12 +22,15 @@ class VisualizationOptions(BaseModel):
     plot_graph_node_size: int = 4000
     transition_data: TransitionData = TransitionData.VALUE
 
-    model_config = ConfigDict(extra='allow')
+    model_config = ConfigDict(extra="allow")
 
 
 def round_and_convert(value_in_ps_inverse):
     value_in_ns_inverse = value_in_ps_inverse * 1e3
-    return round(value_in_ns_inverse) if value_in_ns_inverse >= 1 else round(value_in_ns_inverse, 2)
+    return (
+        round(value_in_ns_inverse) if value_in_ns_inverse >= 1 else round(value_in_ns_inverse, 2)
+    )
+
 
 def build_all_transitions(megacomplex_k_matrices, omitted_rate_constants, transition_data):
     transitions = []
@@ -36,27 +41,40 @@ def build_all_transitions(megacomplex_k_matrices, omitted_rate_constants, transi
         for (state_from, state_to), param in system.matrix.items():
             if param.label not in omitted_rate_constants:
                 rate_constant_value = round_and_convert(param.value)
-                extra_edge_attribute = {'weight': rate_constant_value} if transition_data == TransitionData.VALUE else {'label': param.label}
+                extra_edge_attribute = (
+                    {"weight": rate_constant_value}
+                    if transition_data == TransitionData.VALUE
+                    else {"label": param.label}
+                )
                 if state_from != state_to:
                     transitions.append((state_to, state_from, extra_edge_attribute))
                 elif (state_to, rate_constant_value) not in total_decay_rates:
-                    transitions.append((state_to, f'GS{idx}', extra_edge_attribute))
+                    transitions.append((state_to, f"GS{idx}", extra_edge_attribute))
                     total_decay_rates.add((state_to, rate_constant_value))
                     idx += 1
     return transitions
 
-def get_filled_megacomplex_k_matrices(megacomplexes: List[str], model: Model, parameters: Parameters):
+
+def get_filled_megacomplex_k_matrices(
+    megacomplexes: List[str], model: Model, parameters: Parameters
+):
     k_matrices = {}
     for mc in megacomplexes:
         if mc not in model.megacomplex:
             raise ValueError(f"Megacomplex {mc} not found.")
-        if model.megacomplex[mc].type != 'decay':
+        if model.megacomplex[mc].type != "decay":
             continue
         filled_megacomplex = fill_item(model.megacomplex[mc], model, parameters)
         k_matrices[mc] = filled_megacomplex.get_k_matrix()
     return k_matrices
 
-def visualize_megacomplex(megacomplex: Union[str, List[str]], model: Model, parameter: Parameters, visualization_options: VisualizationOptions = VisualizationOptions()):
+
+def visualize_megacomplex(
+    megacomplex: Union[str, List[str]],
+    model: Model,
+    parameter: Parameters,
+    visualization_options: VisualizationOptions = VisualizationOptions(),
+):
     if isinstance(megacomplex, str):
         megacomplexes = [megacomplex]
     else:
@@ -64,14 +82,25 @@ def visualize_megacomplex(megacomplex: Union[str, List[str]], model: Model, para
 
     k_matrices = get_filled_megacomplex_k_matrices(megacomplexes, model, parameter)
 
-    transitions = build_all_transitions(k_matrices, visualization_options.omitted_rate_constants, visualization_options.transition_data)
-    
+    transitions = build_all_transitions(
+        k_matrices,
+        visualization_options.omitted_rate_constants,
+        visualization_options.transition_data,
+    )
+
     visualize(transitions, visualization_options)
 
-def visualize_dataset_model(dataset_model: str, model: Model, parameter: Parameters, exclude_megacomplexes: Optional[List[str]] = None, visualization_options: VisualizationOptions = VisualizationOptions()):
+
+def visualize_dataset_model(
+    dataset_model: str,
+    model: Model,
+    parameter: Parameters,
+    exclude_megacomplexes: Optional[List[str]] = None,
+    visualization_options: VisualizationOptions = VisualizationOptions(),
+):
     if dataset_model not in model.dataset:
         raise ValueError(f"Dataset model {dataset_model} not found in the model.")
-    
+
     associated_megacomplexes = model.dataset[dataset_model].megacomplex
     if exclude_megacomplexes:
         megacomplexes = [mc for mc in associated_megacomplexes if mc not in exclude_megacomplexes]
@@ -80,13 +109,18 @@ def visualize_dataset_model(dataset_model: str, model: Model, parameter: Paramet
 
     k_matrices = get_filled_megacomplex_k_matrices(megacomplexes, model, parameter)
 
-    transitions = build_all_transitions(k_matrices, visualization_options.omitted_rate_constants, visualization_options.transition_data)
-    
+    transitions = build_all_transitions(
+        k_matrices,
+        visualization_options.omitted_rate_constants,
+        visualization_options.transition_data,
+    )
+
     visualize(transitions, visualization_options)
-    
-    
+
+
 def is_directed_acyclic(graph):
     return nx.is_directed_acyclic_graph(graph)
+
 
 def layout_directed_acyclic_graph(graph, visualization_options):
     topological_order = list(nx.topological_sort(graph))
@@ -98,7 +132,9 @@ def layout_directed_acyclic_graph(graph, visualization_options):
 
     # Start positioning from the first node in topological order
     root_node = topological_order[0]
-    update_position_in_directed_acyclic_graph(graph, root_node, x_pos, y_pos, node_positions, layer_width)
+    update_position_in_directed_acyclic_graph(
+        graph, root_node, x_pos, y_pos, node_positions, layer_width
+    )
 
     # Adjust the width of nodes with multiple predecessors
     for node in topological_order:
@@ -124,8 +160,9 @@ def layout_directed_acyclic_graph(graph, visualization_options):
                 current_x, current_y = node_positions[current_node]
                 node_positions[current_node] = (current_x + shift_x, current_y + shift_y)
                 nodes_to_shift.extend(graph.successors(current_node))
-    visualization_options.plot_graph_edge_connection_style = 'arc3'
+    visualization_options.plot_graph_edge_connection_style = "arc3"
     return graph, node_positions, visualization_options
+
 
 # Function to update position recursively
 def update_position_in_directed_acyclic_graph(graph, node, x, y, pos, layer_width):
@@ -137,10 +174,15 @@ def update_position_in_directed_acyclic_graph(graph, node, x, y, pos, layer_widt
     elif num_successors > 1:
         for i, successor in enumerate(successors):
             if i == 0:
-                update_position_in_directed_acyclic_graph(graph, successor, x + 1, y, pos, layer_width)
+                update_position_in_directed_acyclic_graph(
+                    graph, successor, x + 1, y, pos, layer_width
+                )
             else:
-                update_position_in_directed_acyclic_graph(graph, successor, x, y - 1, pos, layer_width)
+                update_position_in_directed_acyclic_graph(
+                    graph, successor, x, y - 1, pos, layer_width
+                )
     layer_width[x] = max(layer_width.get(x, 0), y)
+
 
 def layout_directed_cyclic_graph(graph, visualization_options):
     node_positions = {}
@@ -184,49 +226,79 @@ def layout_directed_cyclic_graph(graph, visualization_options):
                         used_positions.add(corner_position)
                         corner_position = (corner_position[0] + 1, corner_position[1] + 1)
                         break
-    visualization_options.plot_graph_edge_connection_style = 'arc3,rad=0.1'
+    visualization_options.plot_graph_edge_connection_style = "arc3,rad=0.1"
     visualization_options.plot_graph_node_size = 5000
     return graph, node_positions, visualization_options
 
+
 def apply_some_adjustments(graph):
     for node in graph:
-        ground_state_neighbors = [neighbor for neighbor in graph[node] if 'GS' in neighbor]
+        ground_state_neighbors = [neighbor for neighbor in graph[node] if "GS" in neighbor]
 
         if len(ground_state_neighbors) > 1:
             total_rate_constant = 0
             first_neighbor = ground_state_neighbors[0]
 
             for neighbor in ground_state_neighbors[1:]:
-                total_rate_constant += graph[node][neighbor]['weight']
+                total_rate_constant += graph[node][neighbor]["weight"]
                 graph.remove_edge(node, neighbor)
 
-            graph[node][first_neighbor]['weight'] += total_rate_constant
+            graph[node][first_neighbor]["weight"] += total_rate_constant
 
     return graph
+
 
 def style_and_draw(graph, node_positions, visualization_options):
     plt.figure(figsize=visualization_options.plot_size)
 
-    non_ground_nodes = [node for node in graph.nodes() if 'GS' not in node]
+    non_ground_nodes = [node for node in graph.nodes() if "GS" not in node]
 
     node_labels = {n: "" if "GS" in n else n for n in graph}
-    for original_node_name, alternate_node_name in visualization_options.alternative_node_names.items():
+    for (
+        original_node_name,
+        alternate_node_name,
+    ) in visualization_options.alternative_node_names.items():
         node_labels[original_node_name] = alternate_node_name
 
-    node_colour_dict = {node: colour for colour, nodes in visualization_options.colour_node_mapping.items() for
-                        node in
-                        nodes}
-    colour_order = [node_colour_dict[node] if node in node_colour_dict else 'skyblue' for node in non_ground_nodes]
+    node_colour_dict = {
+        node: colour
+        for colour, nodes in visualization_options.colour_node_mapping.items()
+        for node in nodes
+    }
+    colour_order = [
+        node_colour_dict[node] if node in node_colour_dict else "skyblue"
+        for node in non_ground_nodes
+    ]
 
-    nx.draw_networkx_nodes(graph, node_positions, nodelist=non_ground_nodes, node_size=visualization_options.plot_graph_node_size,
-                           node_color=colour_order, edgecolors='black')
-    nx.draw_networkx_labels(graph, node_positions, labels=node_labels, font_size=10, font_weight='bold')
-    nx.draw_networkx_edges(graph, node_positions, arrows=True, node_size=visualization_options.plot_graph_node_size,
-                           connectionstyle=visualization_options.plot_graph_edge_connection_style)
-    edge_labels = nx.get_edge_attributes(graph, 'weight')
+    nx.draw_networkx_nodes(
+        graph,
+        node_positions,
+        nodelist=non_ground_nodes,
+        node_size=visualization_options.plot_graph_node_size,
+        node_color=colour_order,
+        edgecolors="black",
+    )
+    nx.draw_networkx_labels(
+        graph, node_positions, labels=node_labels, font_size=10, font_weight="bold"
+    )
+    nx.draw_networkx_edges(
+        graph,
+        node_positions,
+        arrows=True,
+        node_size=visualization_options.plot_graph_node_size,
+        connectionstyle=visualization_options.plot_graph_edge_connection_style,
+    )
+    edge_labels = nx.get_edge_attributes(graph, "weight")
 
     if nx.is_directed_acyclic_graph(graph):
-        nx.draw_networkx_edge_labels(graph, node_positions, edge_labels=edge_labels, font_size='6', rotate=False, font_color='red')
+        nx.draw_networkx_edge_labels(
+            graph,
+            node_positions,
+            edge_labels=edge_labels,
+            font_size="6",
+            rotate=False,
+            font_color="red",
+        )
     else:
         for (n1, n2), label in edge_labels.items():
             x1, y1 = node_positions[n1]
@@ -235,16 +307,27 @@ def style_and_draw(graph, node_positions, visualization_options):
             dx, dy = x2 - x1, y2 - y1
             offset_x = 0.1 * dy if graph.has_edge(n2, n1) else 0
             offset_y = -0.1 * dx if graph.has_edge(n2, n1) else 0
-            plt.text(label_pos[0] + offset_x, label_pos[1] + offset_y, s=label,
-                     bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.2', alpha=0.5))
+            plt.text(
+                label_pos[0] + offset_x,
+                label_pos[1] + offset_y,
+                s=label,
+                bbox=dict(
+                    facecolor="white", edgecolor="black", boxstyle="round,pad=0.2", alpha=0.5
+                ),
+            )
     plt.show()
+
 
 def visualize(transitions, visualization_options):
     graph = nx.DiGraph()
     graph.add_edges_from(transitions)
     if nx.is_directed_acyclic_graph(graph):
-        graph, node_positions, visualization_options = layout_directed_acyclic_graph(graph, visualization_options)
+        graph, node_positions, visualization_options = layout_directed_acyclic_graph(
+            graph, visualization_options
+        )
     else:
-        graph, node_positions, visualization_options = layout_directed_cyclic_graph(graph, visualization_options)
+        graph, node_positions, visualization_options = layout_directed_cyclic_graph(
+            graph, visualization_options
+        )
     graph = apply_some_adjustments(graph)
     style_and_draw(graph, node_positions, visualization_options)

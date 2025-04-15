@@ -2,7 +2,7 @@
 
 ## Supplementary Information (SI) for Cyanobacteria Dynamically Regulate Phycobilisome-to-Photosystems Excitation Energy Transfer
 
-Ivo H.M. van Stokkum<sup>1,6*</sup>, Dariusz M. Niedzwiedzki<sup>2,3</sup>, Parveen Akhtar<sup>5</sup>, Avratanu Biswas<sup>1,5</sup>, Petar H. Lambrev<sup>5</sup>, Haijun Liu<sup>4</sup>
+Ivo H.M. van Stokkum<sup>1,6\*</sup>, Dariusz M. Niedzwiedzki<sup>2,3</sup>, Parveen Akhtar<sup>5</sup>, Avratanu Biswas<sup>1,5</sup>, Petar H. Lambrev<sup>5</sup>, Haijun Liu<sup>4</sup>
 
 <sub><sup>1</sup> Department of Physics and Astronomy and LaserLaB, Faculty of Science, Vrije Universiteit Amsterdam, De Boelelaan 1081, 1081 HV, Amsterdam, The Netherlands</sub><br>
 <sub><sup>2</sup> Center for Solar Energy and Energy Storage, Washington University in St. Louis, St. Louis, MO 63130, USA</sub><br>
@@ -11,7 +11,7 @@ Ivo H.M. van Stokkum<sup>1,6*</sup>, Dariusz M. Niedzwiedzki<sup>2,3</sup>, Parv
 <sub><sup>5</sup>HUN-REN Biological Research Centre, Temesvári krt. 62, Szeged 6726, Hungary </sub><br>
 <sub><sup>6</sup> Lead contact</sub>
 
-<sub>*Correspondence: i.h.m.van.stokkum@vu.nl</sub>
+<sub>\*Correspondence: i.h.m.van.stokkum@vu.nl</sub>
 
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7958154.svg)](https://doi.org/10.5281/zenodo.7958154) -->
 
@@ -25,4 +25,3 @@ These licenses are provided in plain text as a convenience to the user as [COPYI
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-

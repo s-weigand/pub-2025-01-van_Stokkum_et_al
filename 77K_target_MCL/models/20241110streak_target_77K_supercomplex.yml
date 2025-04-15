@@ -7,16 +7,16 @@ dataset_groups:
 dataset:
   super1ns:
     group: streak
-    megacomplex: [supercomplex1,freerod]
-    # super1nsartefact    
-    megacomplex_scale: [scale.1,scalem.freerod1]
+    megacomplex: [supercomplex1, freerod]
+    # super1nsartefact
+    megacomplex_scale: [scale.1, scalem.freerod1]
     initial_concentration: super1nsinput
     irf: super1nsirf
     scale: scale.1
   super2ns:
     group: streak
-    megacomplex: [supercomplex2,freerod]
-    megacomplex_scale: [scale.1,scalem.freerod2]
+    megacomplex: [supercomplex2, freerod]
+    megacomplex_scale: [scale.1, scalem.freerod2]
     # ,super2nsartefact]
     # megacomplex_scale: [scalem.1,scalem.1]
     initial_concentration: super2nsinput
@@ -27,9 +27,9 @@ megacomplex:
   freerod:
     k_matrix: [kmfreerod]
   supercomplex1:
-    k_matrix: [kmsupercomplex,kmsuper1ns]
+    k_matrix: [kmsupercomplex, kmsuper1ns]
   supercomplex2:
-    k_matrix: [kmsupercomplex,kmsuper2ns]
+    k_matrix: [kmsupercomplex, kmsuper2ns]
   # super1nsartefact:
   #   type: coherent-artifact
   #   order: 1
@@ -63,13 +63,35 @@ k_matrix:
 
 initial_concentration:
   super1nsinput:
-    compartments: [PB1,PB2,PSI1,PSI2,PSI3,PSII1,PSII2,PSII3,freerod]
+    compartments: [PB1, PB2, PSI1, PSI2, PSI3, PSII1, PSII2, PSII3, freerod]
     # parameters: [input.super1nsPB1, input.0, input.super1nsPSI1,input.0, input.0, input.super1nsPSII1,input.0, input.0, input.1]
-    parameters: [input.1, input.0, input.PSI, input.0, input.0, input.PSII, input.0, input.0, input.1]
+    parameters:
+      [
+        input.1,
+        input.0,
+        input.PSI,
+        input.0,
+        input.0,
+        input.PSII,
+        input.0,
+        input.0,
+        input.1,
+      ]
     exclude_from_normalize: [freerod]
   super2nsinput:
-    compartments: [PB1,PB2,PSI1,PSI2,PSI3,PSII1,PSII2,PSII3,freerod]
-    parameters: [input.1, input.0, input.PSI, input.0, input.0, input.PSII, input.0, input.0, input.1]
+    compartments: [PB1, PB2, PSI1, PSI2, PSI3, PSII1, PSII2, PSII3, freerod]
+    parameters:
+      [
+        input.1,
+        input.0,
+        input.PSI,
+        input.0,
+        input.0,
+        input.PSII,
+        input.0,
+        input.0,
+        input.1,
+      ]
     # parameters: [input.super2nsPB1, input.0, input.super2nsPSI1,input.0, input.0, input.super2nsPSII1,input.0, input.0, input.1]
     exclude_from_normalize: [freerod]
 
@@ -86,15 +108,15 @@ clp_penalties:
 irf:
   super1nsirf:
     type: spectral-multi-gaussian
-    width: [super1nsirf.width1,super1nsirf.width2]
-    scale: [scale.1,super1nsirf.scale2]
+    width: [super1nsirf.width1, super1nsirf.width2]
+    scale: [scale.1, super1nsirf.scale2]
     dispersion_center: irf.dispcenter
     center_dispersion_coefficients: [super1nsirf.disp1, super1nsirf.disp2]
     center: [super1nsirf.center]
   super2nsirf:
     type: spectral-multi-gaussian
-    width: [super2nsirf.width1,super2nsirf.width2]
-    scale: [scale.1,super2nsirf.scale2]
+    width: [super2nsirf.width1, super2nsirf.width2]
+    scale: [scale.1, super2nsirf.scale2]
     dispersion_center: irf.dispcenter
     center_dispersion_coefficients: [super2nsirf.disp1, super2nsirf.disp2]
     center: [super2nsirf.center]
@@ -131,43 +153,43 @@ clp_constraints:
   - type: zero
     target: PSII1
     interval:
-      - [707,1000]
+      - [707, 1000]
   - type: zero
     target: PSII2
     interval:
-      - [710,1000]
+      - [710, 1000]
   - type: zero
     target: PSII3
     interval:
-      - [710,1000]
+      - [710, 1000]
   - type: zero
     target: PSII1
     interval:
-      - [0,670]
+      - [0, 670]
   - type: zero
     target: PSII2
     interval:
-      - [0,670]
+      - [0, 670]
   - type: zero
     target: PSII3
     interval:
-      - [0,670]
+      - [0, 670]
   - type: zero
     target: PSI1
     interval:
-      - [0,690]
+      - [0, 690]
   - type: zero
     target: PSI2
     interval:
-      - [0,690]
+      - [0, 690]
   - type: zero
     target: PSI3
     interval:
-      - [0,690]
+      - [0, 690]
   - type: zero
     target: freerod
     interval:
-      - [675,1000]
+      - [675, 1000]
 # weights:
 #   - datasets: [super1ns,datr2]
 #     global_interval: [100, 1000]

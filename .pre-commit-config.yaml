@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pycontribs/mirrors-prettier
-    rev: 'v3.5.3'
+    rev: "v3.5.3"
     hooks:
       - id: prettier
         additional_dependencies: ["prettier@3.3.3"]
@@ -19,4 +19,3 @@ repos:
     rev: v0.11.5
     hooks:
       - id: ruff-format
-        name: "ruff format notebooks"

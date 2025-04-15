@@ -3,7 +3,7 @@ dataset:
   dataset:
     megacomplex: [spec_mc]
     spectral_axis_inverted: True # to allow specification of spectral parameters in cm-1
-    spectral_axis_scale: 1E7 # 10000000 
+    spectral_axis_scale: 1E7 # 10000000
 
 megacomplex:
   spec_mc:
@@ -25,7 +25,6 @@ shape:
     location: spectral.loc2
     width: spectral.width2
     skewness: spectral.skew2
-
 # weights:
 #   - datasets: [dataset]
 #     # here global_interval refers to time
