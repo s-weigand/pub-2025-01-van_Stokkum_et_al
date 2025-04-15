@@ -1,0 +1,22 @@
+repos:
+  - repo: https://github.com/pycontribs/mirrors-prettier
+    rev: 'v3.5.3'
+    hooks:
+      - id: prettier
+        additional_dependencies: ["prettier@3.3.3"]
+
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.8.1
+    hooks:
+      - id: nbstripout
+        args:
+          - "--drop-empty-cells"
+          - "--extra-keys"
+          - "metadata.vscode metadata.language_info.version metadata.kernelspec.display_name"
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.11.5
+    hooks:
+      - id: ruff-format
+        name: "ruff format notebooks"
