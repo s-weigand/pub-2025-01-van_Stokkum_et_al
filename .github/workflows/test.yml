@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [pre-commit]
     strategy:
+      fail-fast: false
       matrix:
         case_study:
           [77K_target_cells, 77K_target_MCL, RT_target_WT_dPSII_cells_PB]
