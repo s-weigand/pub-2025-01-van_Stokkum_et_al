@@ -1,0 +1,96 @@
+name: Build-PDFs
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: 🚀 Compile PDFs ${{ matrix.case_study }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    strategy:
+      matrix:
+        case_study: [77K_target_cells, 77K_target_MCL, RT_target_WT_dPSII_cells_PB]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - uses: actions/cache@v3
+        name: Tectonic Cache
+        with:
+          path: ~/.cache/Tectonic
+          key: ${{ runner.os }}-tectonic-${{ hashFiles('**/_preamble*.tex') }}
+          restore-keys: |
+            ${{ runner.os }}-tectonic-
+
+      - name: Get env file hash
+        id: env-file-hash
+        run: echo "hash=$(md5sum environment.yml)" >> "${GITHUB_OUTPUT}"
+
+      - name: Install Conda environment with Micromamba
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-file: environment.yml
+          # persist on the same day.
+          cache-environment-key: environment-${{ steps.env-file-hash.outputs.hash }}
+          cache-downloads-key: downloads-${{ steps.env-file-hash.outputs.hash }}
+
+      - name: Setup tectonic and biber
+        uses: wtfjoke/setup-tectonic@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          biber-version: "2.17"
+
+      - name: Run notebooks and build PDFs
+        run: |
+          python scripts/create_notebook_pdf.py ${{ matrix.case_study }}
+
+      - name: Upload PDFs
+        uses: actions/upload-artifact@v3
+        with:
+          name: pdfs
+          path: pdfs/*.pdf
+
+      - name: Upload Evaluated Notebooks
+        uses: actions/upload-artifact@v3
+        with:
+          name: notebooks
+          path: ${{ matrix.case_study }}/*.ipynb
+
+  upload-artifacts:
+    name: 📦⬆️ Deploy assets to release page
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+    permissions:
+      contents: write
+    needs: build
+    steps:
+      - name: ⬇ Download pdf artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: pdfs
+          path: pdfs
+
+      - name: ⬇ Download notebooks artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: notebooks
+          path: notebooks
+
+      - name: 🚀⬆️ Upload pdf Asset
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: pdfs/*
+
+      - name: 🚀⬆️ Upload notebooks Asset
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: notebooks/*
+          generate_release_notes: true
+          append_body: true
